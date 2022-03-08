@@ -74,23 +74,26 @@ def get_final_position(): ##in 125 steps, where the blobs will end up
                 if t==125:
                     finalposition.append([blobcor[a][0],blobcor[a][1],blobcor[a][3]])
                 a+=1   
-            pygame.display.update()
-            clock.tick(60)
             a=0
             t+=1  
+            pygame.display.update()
+            clock.tick(60)
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 pygame.quit()
+                return(finalposition)
                 exit()
-        
 
-# get_final_position()
+finalposition=get_final_position()
 
-# newgenlist=[]
-# for ind in range(0,1000):
-#     if finalposition[ind][0]<=xs and finalposition[ind][1]<=ys:
-#         newgenlist.append(finalposition[ind][2])
-#         newgenlist.append(finalposition[ind][2])
-#         ##those who made it to the safe zone get to reproduce twice
+xs=100
+ys=100
 
-# print(newgenlist)
+newgenlist=[]
+for ind in range(0,1000):
+    if finalposition[ind][0]<=xs and finalposition[ind][1]<=ys:
+        newgenlist.append(finalposition[ind][2])
+        newgenlist.append(finalposition[ind][2])
+        ##those who made it to the safe zone get to reproduce twice
+
+print(newgenlist)
