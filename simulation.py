@@ -50,7 +50,7 @@ for genes in bloblist:
 
 
 blobpic=pygame.Surface((5,5))
-def get_final_position(): ##in 125 steps, where the blobs will end up
+def get_final_position(list): ##in 125 steps, where the blobs will end up
     finalposition=[]
     while True:
         for t in range(1,126):
@@ -62,17 +62,29 @@ def get_final_position(): ##in 125 steps, where the blobs will end up
             safezone=pygame.Surface((xs,ys))
             safezone.fill((173,255,47))    
             screen.blit(safezone,(0,0))
-            while a<1000:
-                dy = bloblist[a].count('T') - bloblist[a].count('A')
-                dx = bloblist[a].count('G') - bloblist[a].count('C')
-                x=blobcor[a][0]
-                y=blobcor[a][1]
-                blobcor[a][0]=x+dx
-                blobcor[a][1]=y+dy
-                blobpic.fill(blobcor[a][2])    
+            while a<len(list):
+                dy = list[a][3].count('T') - list[a][3].count('A')
+                dx = list[a][3].count('G') - list[a][3].count('C')
+                x=list[a][0]
+                y=list[a][1]
+                if x<=0:
+                    x=0
+                    dx=0
+                if x>=496:
+                    x=496
+                    dx=0
+                if y<=0:
+                    y=0
+                    dy=0
+                if y>=496:
+                    y=496
+                    dy=0
+                list[a][0]=x+dx
+                list[a][1]=y+dy
+                blobpic.fill(list[a][2])    
                 screen.blit(blobpic,(x,y))
                 if t==125:
-                    finalposition.append([blobcor[a][0],blobcor[a][1],blobcor[a][3]])
+                    finalposition.append([list[a][0],list[a][1],list[a][3]])
                 a+=1   
             a=0
             t+=1  
@@ -84,16 +96,27 @@ def get_final_position(): ##in 125 steps, where the blobs will end up
                 return(finalposition)
                 exit()
 
-finalposition=get_final_position()
+##safetyzone
+def get_newlist():
+    finalposition=get_final_position()
+    xs=100
+    ys=100
+    newgenlist=[]
+    for ind in range(0,1000):
+        if finalposition[ind][0]<=xs and finalposition[ind][1]<=ys:
+            newgenlist.append(finalposition[ind][2])
+            newgenlist.append(finalposition[ind][2])
+            ##those who made it to the safe zone get to reproduce twice
 
-xs=100
-ys=100
+    return(newgenlist)
 
-newgenlist=[]
-for ind in range(0,1000):
-    if finalposition[ind][0]<=xs and finalposition[ind][1]<=ys:
-        newgenlist.append(finalposition[ind][2])
-        newgenlist.append(finalposition[ind][2])
-        ##those who made it to the safe zone get to reproduce twice
+get_final_position(blobcor)
 
-print(newgenlist)
+
+##recursion for different generaation
+def evolution(generations):##list is the begining list
+    list=blobcor
+    for i in range(generations):
+        list=get_final_position(get_newlist(list))
+
+evolution(100)
