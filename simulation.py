@@ -1,6 +1,7 @@
 #A up, T down, C left, G right
 import random
 from sys import exit
+from turtle import width
 from webbrowser import get
 import pygame
 
@@ -144,7 +145,8 @@ def evolution(generations):##list is the begining list
     genelist=bloblist
     for i in range(generations):
         genelist=get_newlist(genelist)
-        screen.blit()
+        screen.blit(screen,(WIDTH,HEIGHT))
         get_final_position(genelist)
+
 
 evolution(100)
