@@ -136,6 +136,7 @@ def get_newlist(genelist):
         if finalposition[ind][0]<=xs and finalposition[ind][1]<=ys:
             newgenlist.append(finalposition[ind][2])
             newgenlist.append(finalposition[ind][2])
+            newgenlist.append(finalposition[ind][2])
     return newgenlist
             ##those who made it to the safe zone get to reproduce twice
     
